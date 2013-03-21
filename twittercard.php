@@ -29,17 +29,62 @@ class Twittercard extends Module
 
 	function install()
 	{
-		return (parent::install() && $this->registerHook('header'));
+	 	if (
+			!parent::install() OR
+			!$this->registerHook('header') OR
+			!Configuration::updateValue('TWITTER_CARD_SITE', '@mabarroso') OR
+			!Configuration::updateValue('TWITTER_CARD_CREATOR', '@mabarroso')
+		)
+	 		return false;
+	 	return true;
 	}
 
 	public function uninstall()
 	{
 	 	if (
 			!parent::uninstall() OR
-			!$this->unregisterHook('header')
+			!$this->unregisterHook('header') OR
+			!Configuration::deleteByName('TWITTER_CARD_SITE') OR
+			!Configuration::deleteByName('TWITTER_CARD_CREATOR')
 		)
 	 		return false;
 	 	return true;
+	}
+
+	public function getContent()
+	{
+		$this->_html = '';
+		if (Tools::isSubmit('submitFace'))
+		{
+			Configuration::updateValue('TWITTER_CARD_SITE', Tools::getValue('site'));
+			Configuration::updateValue('TWITTER_CARD_CREATOR', Tools::getValue('creator'));
+			$this->_html .= $this->displayConfirmation($this->l('Settings updated successfully'));
+		}
+
+		$this->_html .= '
+		<div style="position:absolute;top:300px;right:130px;background:#7B0099;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;color:#ffffff;width:170px;height:150px;border:2px solid #7B0099;padding:15px;">
+		<p style="padding-bottom:25px;text-align:center;">I spend a lot of time making and improving this plugin, any donation would be very helpful for me, thank you very much :)</p>
+		<form id="paypalform" action="https://www.paypal.com/cgi-bin/webscr" method="post"><input type="hidden" name="cmd" value="_s-xclick"><input type="hidden" name="hosted_button_id" value="NMR62HAEAHCRL"><input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"><img alt="" border="0" src="https://www.paypalobjects.com/pt_BR/i/scr/pixel.gif" width="1" height="1"></form>
+		</div>
+
+		<form action="'.$_SERVER['REQUEST_URI'].'" method="post">';
+
+		$this->_html .='
+		<fieldset>
+			<div class="margin-form" style="padding:0 0 1em 100px;">
+				<label style="width:162px;text-align:left;">'.$this->l('twitter:site').'</label>
+				<input type="text" name="site" id="site" value="'.(Configuration::get('TWITTER_CARD_SITE')).'" /><br/>
+				<small style="padding-left:164px;padding-top:10px;display:block;font-size:11px;">@username for the website used in the card footer</small>
+			</div>
+			<div class="margin-form" style="padding:0 0 1em 100px;">
+				<label style="width:162px;text-align:left;">'.$this->l('twitter:creator').'</label>
+				<input type="text" name="creator" id="creator" value="'.(Configuration::get('TWITTER_CARD_CREATOR')).'" /><br/>
+				<small style="padding-left:164px;padding-top:10px;display:block;font-size:11px;">@username for the content creator / author</small>
+			</div>
+			<center><input type="submit" name="submitFace" value="'.$this->l('Save').'" class="button" /></center>
+		</fieldset><br/>';
+
+		return $this->_html;
 	}
 
 	function hookHeader($params)
@@ -70,7 +115,9 @@ class Twittercard extends Module
 		$smarty->assign(array(
 			'description_short' => strip_tags($description->description_short),
 			'description' => strip_tags($description->description),
-			'product' => $product
+			'product' => $product,
+			'site' => Configuration::get('TWITTER_CARD_SITE'),
+			'creator' => Configuration::get('TWITTER_CARD_CREATOR')
 			));
 
 		return $this->display(__FILE__, 'head.tpl');
