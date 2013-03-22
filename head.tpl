@@ -17,6 +17,6 @@
 		    <meta name="twitter:description" content="{$description|escape:htmlall:'UTF-8'}" />
 		{/if}
 		{if $product.id_image}
-		    <meta name="twitter:image" content="{$link->getImageLink($product.link_rewrite, $product.id_image, 'medium')}" />
+		    <meta name="twitter:image" content="{$link->getImageLink($product.link_rewrite, $product.id_image, 'large_default')}" />
 		{/if}
 {/if}
