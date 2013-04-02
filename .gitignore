@@ -2,4 +2,5 @@ out/*
 /composer.phar
 /bin/
 /vendor/
+config.xml
 
