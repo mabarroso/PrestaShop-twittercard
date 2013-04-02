@@ -19,6 +19,7 @@ class Twittercard extends Module
 		$this->version = 0.1;
 		$this->author = 'mabarroso';
 		$this->need_instance = 0;
+		$this->module_key = '9650005d954151b29b7f3028948a71fb';
 
 		$this->_directory = dirname(__FILE__).'/../../';
 		parent::__construct();
