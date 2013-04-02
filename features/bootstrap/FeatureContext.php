@@ -31,9 +31,25 @@ class FeatureContext extends MinkContext
         $this->existsMeta('twitter:site') &&
         $this->existsMeta('twitter:creator') &&
         $this->existsMeta('twitter:url') &&
+        $this->existsMeta('twitter:title') &&
         $this->existsMeta('twitter:description') &&
         $this->existsMeta('twitter:image');
     }
+
+    /**
+     * @Given /^meta tags must be corract values$/
+     */
+    public function metaTagsMustBeCorractValues()
+    {
+        $this->compareMeta('twitter:card', 'summary');
+        //$this->compareMeta('twitter:site');
+        //$this->compareMeta('twitter:creator');
+        $this->compareMeta('twitter:url', $this->getSession()->getCurrentUrl());
+        $this->compareMeta('twitter:title', $this->getSession()->getPage()->find('css', '#image-block img')->getAttribute('alt'));
+        $this->compareMeta('twitter:description', $this->getSession()->getPage()->find('css', 'meta[name="description"]')->getAttribute('content'));
+        $this->compareMeta('twitter:image', $this->getSession()->getPage()->find('css', '#image-block img')->getAttribute('src'));
+    }
+
 
     private function existsMeta($metaName) {
       if (!$this->getSession()->getPage()->find('css', 'meta[name="'.$metaName.'"]')) {
@@ -42,4 +58,15 @@ class FeatureContext extends MinkContext
       }
       return true;
     }
+
+    private function compareMeta($metaName, $value) {
+      if ($this->existsMeta($metaName)) {
+        $metaValue = $this->getSession()->getPage()->find('css', 'meta[name="'.$metaName.'"]')->getAttribute('content');
+        if ($metaValue != $value) {
+          throw new Exception("Meta tag '$metaName' fails in {$this->getSession()->getCurrentUrl()} page. \nExpected:\n\t$value\nWas:\n\t$metaValue");
+        }
+      }
+      return true;
+    }
+
 }
