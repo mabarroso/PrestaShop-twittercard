@@ -24,7 +24,7 @@
   You must request you participation in Twitter Cards (this take several days by  approval Twitter Team). Fill the [form](https://dev.twitter.com/form/participate-twitter-cards)
 
 ##Recommandations
-  You could read the official [Twitter documentación](https://dev.twitter.com/docs/cards)
+  You could read the official [Twitter documentation](https://dev.twitter.com/docs/cards)
 
 # License
   Released under the MIT license: [http://www.opensource.org/licenses/MIT](http://www.opensource.org/licenses/MIT)
