@@ -13,14 +13,14 @@ Feature: Admin
     When I go to admin modules page
     And looking for module
     And click install
-    Then I should see "Módulo (s) instalado con éxito"
+    Then I should see "Module(s) installed successfully"
 
   Scenario: Uninstall module
     Given I am on admin homepage
     When I go to admin modules page
     And looking for module
     And click uninstall
-    Then I should see "Módulo (s) desinstalado correctamente"
+    Then I should see "Module(s) uninstalled successfully"
 
   Scenario: Configure module
 

@@ -85,11 +85,7 @@ class FeatureContext extends MinkContext
      */
     public function iGoToAdminModulesPage()
     {
-        $link = $this->getSession()->getPage()->find('xpath', '//a[text()="modules"]');
-        if (is_null($link)) {
-            $link = $this->getSession()->getPage()->find('xpath', '//a[text()="módulos"]');
-        }
-        $link->click();
+        $this->getSession()->getPage()->find('xpath', '//a[text()="Modules"]')->click();
     }
 
     /**
@@ -98,7 +94,7 @@ class FeatureContext extends MinkContext
     public function lookingForModule()
     {
         $this->getSession()->getPage()->find('css', 'input[name="filtername"]')->setValue('twittercard');
-        $this->getSession()->getPage()->find('css', '#filternameForm input[value="Buscar"]')->click();
+        $this->getSession()->getPage()->find('css', '#filternameForm input[type="submit"]')->click();
         $this->assertPageContainsText('Twitter Card');
     }
 
@@ -107,7 +103,7 @@ class FeatureContext extends MinkContext
      */
     public function clickInstall()
     {
-        $flag = $this->getSession()->getPage()->find('css', '#anchorProducttooltip .non-install');
+        $flag = $this->getSession()->getPage()->find('css', '#anchorTwittercard .non-install');
         if (is_null($flag)) {
           throw new Exception("Module already installed");
         }
@@ -120,7 +116,7 @@ class FeatureContext extends MinkContext
      */
     public function clickUninstall()
     {
-        $flag = $this->getSession()->getPage()->find('css', '#anchorProducttooltip .non-install');
+        $flag = $this->getSession()->getPage()->find('css', '#anchorTwittercard .non-install');
         if (!is_null($flag)) {
           throw new Exception("Module already uninstalled");
         }
