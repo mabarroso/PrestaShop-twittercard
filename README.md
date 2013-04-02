@@ -2,14 +2,16 @@
   Twitter cards module for Prestashop.
 
 #Description
-  Add Twitter cards metas in the products pages.
+  Add Twitter cards metas in the products pages and make it possible for you to attach media experiences to Tweets that link to your products.
 
 ##How works
+  When a customer make a Tweet linked to a product will show the product image, name and description.
+  ![](https://raw.github.com/mabarroso/PrestaShop-twittercard/master/README_twitter.jpg)
+
   For a product page like this
   ![](https://raw.github.com/mabarroso/PrestaShop-twittercard/master/README_shop.jpg)
 
   This module add Twitter Card metas in your products pages.
-
 ```html
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@prestashop" />
@@ -19,9 +21,6 @@
   <meta name="twitter:description" content="This simple yet elegant dress is ideal for any special occasion. The ruched detailing and the handsewn beading accent your neckline, and the straps are trimmed so they won't scratch your neck. Its cream color is so easy to match with any handbag or shoes, there's no reason not to own it!" />
   <meta name="twitter:image" content="http://demo-store.prestashop.com/27-50-large/visconti-co-evening-dress.jpg" />
 ```
-
-  When a customer make a Tweet linked to the product will show the product image, name and description.
-  ![](https://raw.github.com/mabarroso/PrestaShop-twittercard/master/README_twitter.jpg)
 
 ##Bnefits for the e-merchant
   Add Twitter cards support to your products page and make it possible for you to attach media experiences to Tweets that link to your products.
@@ -73,13 +72,13 @@
   base_url: http://localhost/prestashop/sandbox
 ```
 
-2. Rename *admin/* prestashop directory to *adm/* and create a employed named *test* which email *test@test.test* and password *test*. Set Administrator profile to this user.
+2. Rename *admin/* prestashop directory to *adm/* and create a employed named *test* which email *test@test.test* and password *testtest*. Set Administrator profile to this user.
 
   If you prefer other *admin/* name or other test user credentials, change the *features/bootstrap/FeatureContext.php*] file.
 ```php
-  define('PRESTASHOP_ADMIN_PATH', 'adm');
+  define('PRESTASHOP_ADMIN_PATH', '/prestashop/sandbox/adm/');
   define('PRESTASHOP_ADMIN_USER', 'test@test.test');
-  define('PRESTASHOP_ADMIN_PASSWORD', 'test');
+  define('PRESTASHOP_ADMIN_PASSWORD', 'testtest');
 ```
 3. Link src project directory to your Prestashop site modules directory
 ```shell

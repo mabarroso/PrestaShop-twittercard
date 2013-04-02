@@ -7,5 +7,5 @@ Feature: metas
     Given I am on homepage
     When I go to the first product
     Then meta tags must be set
-    And meta tags must be corract values
+    And meta tags must be correct values
 

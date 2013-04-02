@@ -1,5 +1,9 @@
 <?php
 
+define('PRESTASHOP_ADMIN_PATH', '/prestashop/sandbox/adm/');
+define('PRESTASHOP_ADMIN_USER', 'test@test.test');
+define('PRESTASHOP_ADMIN_PASSWORD', 'testtest');
+
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
     Behat\Behat\Context\BehatContext,
@@ -37,9 +41,9 @@ class FeatureContext extends MinkContext
     }
 
     /**
-     * @Given /^meta tags must be corract values$/
+     * @Given /^meta tags must be correct values$/
      */
-    public function metaTagsMustBeCorractValues()
+    public function metaTagsMustBeCorrectValues()
     {
         $this->compareMeta('twitter:card', 'summary');
         //$this->compareMeta('twitter:site');
@@ -50,6 +54,78 @@ class FeatureContext extends MinkContext
         $this->compareMeta('twitter:image', $this->getSession()->getPage()->find('css', '#image-block img')->getAttribute('src'));
     }
 
+    /**
+     * @Given /^I am on admin login$/
+     */
+    public function iAmOnAdminLogin()
+    {
+        $this->getSession()->visit(PRESTASHOP_ADMIN_PATH.'index.php?controller=AdminLogin');
+    }
+
+    /**
+     * @When /^I am logged in$/
+     */
+    public function iAmLoggedIn()
+    {
+        $this->getSession()->getPage()->find('css', 'input[name="email"]')->setValue(PRESTASHOP_ADMIN_USER);
+        $this->getSession()->getPage()->find('css', 'input[name="passwd"]')->setValue(PRESTASHOP_ADMIN_PASSWORD);
+        $this->getSession()->getPage()->find('css', 'input[name="submitLogin"]')->click();
+    }
+
+    /**
+     * @Given /^I am on admin homepage$/
+     */
+    public function iAmOnAdminHomepage()
+    {
+        $this->getSession()->visit(PRESTASHOP_ADMIN_PATH);
+    }
+
+    /**
+     * @When /^I go to admin modules page$/
+     */
+    public function iGoToAdminModulesPage()
+    {
+        $link = $this->getSession()->getPage()->find('xpath', '//a[text()="modules"]');
+        if (is_null($link)) {
+            $link = $this->getSession()->getPage()->find('xpath', '//a[text()="módulos"]');
+        }
+        $link->click();
+    }
+
+    /**
+     * @Given /^looking for module$/
+     */
+    public function lookingForModule()
+    {
+        $this->getSession()->getPage()->find('css', 'input[name="filtername"]')->setValue('twittercard');
+        $this->getSession()->getPage()->find('css', '#filternameForm input[value="Buscar"]')->click();
+        $this->assertPageContainsText('Twitter Card');
+    }
+
+    /**
+     * @Given /^click install$/
+     */
+    public function clickInstall()
+    {
+        $flag = $this->getSession()->getPage()->find('css', '#anchorProducttooltip .non-install');
+        if (is_null($flag)) {
+          throw new Exception("Module already installed");
+        }
+        $this->getSession()->getPage()->find('css', '#list-action-button a')->click();
+
+    }
+
+    /**
+     * @Given /^click uninstall$/
+     */
+    public function clickUninstall()
+    {
+        $flag = $this->getSession()->getPage()->find('css', '#anchorProducttooltip .non-install');
+        if (!is_null($flag)) {
+          throw new Exception("Module already uninstalled");
+        }
+        $this->getSession()->getPage()->find('css', '#list-action-button a')->click();
+    }
 
     private function existsMeta($metaName) {
       if (!$this->getSession()->getPage()->find('css', 'meta[name="'.$metaName.'"]')) {
@@ -68,5 +144,4 @@ class FeatureContext extends MinkContext
       }
       return true;
     }
-
 }
