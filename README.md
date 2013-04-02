@@ -6,7 +6,7 @@
 
 ##How works
   For a product page like this
-  ![](https://github.com/mabarroso/prestashop_twittercard/raw/master/doc/shop.jpg)
+  ![](https://github.com/mabarroso/prestashop_twittercard/raw/master/doc/README_shop.jpg)
 
   This module add Twitter Card metas in your products pages.
 
@@ -21,7 +21,7 @@
 ```
 
   When a customer make a Tweet linked to the product will show the product image, name and description.
-  ![](https://github.com/mabarroso/prestashop_twittercard/raw/master/doc/twitter.jpg)
+  ![](https://github.com/mabarroso/prestashop_twittercard/raw/master/doc/README_twitter.jpg)
 
 ##Bnefits for the e-merchant
   Add Twitter cards support to your products page and make it possible for you to attach media experiences to Tweets that link to your products.
