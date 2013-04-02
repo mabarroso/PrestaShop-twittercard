@@ -1,0 +1,11 @@
+mkdir out
+mkdir out/twittercard
+cp head.tpl 				out/twittercard
+cp index.php 				out/twittercard
+cp logo.gif 				out/twittercard
+cp twittercard.php 	out/twittercard
+cd out
+zip twittercard.zip twittercard/*
+cd ..
+
+
