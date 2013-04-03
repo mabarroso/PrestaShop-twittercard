@@ -4,6 +4,9 @@ define('PRESTASHOP_ADMIN_PATH', '/prestashop/sandbox/adm/');
 define('PRESTASHOP_ADMIN_USER', 'test@test.test');
 define('PRESTASHOP_ADMIN_PASSWORD', 'testtest');
 
+define('TWITTERCARD_SITE', '@site');
+define('TWITTERCARD_CREATOR', '@creator');
+
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
     Behat\Behat\Context\BehatContext,
@@ -99,6 +102,36 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * @Given /^module must be uninstalled$/
+     */
+    public function moduleMustBeUninstalled()
+    {
+    		$this->iGoToAdminModulesPage();
+    		$this->lookingForModule();
+        $flag = $this->getSession()->getPage()->find('css', '#anchorTwittercard .non-install');
+        if (is_null($flag)) {
+          $this->getSession()->getPage()->find('css', '#list-action-button a')->click();
+        }
+    }
+
+    /**
+     * @Given /^module must be installed$/
+     */
+    public function moduleMustBeInstalled()
+    {
+    		$this->iGoToAdminModulesPage();
+    		$this->lookingForModule();
+        $flag = $this->getSession()->getPage()->find('css', '#anchorTwittercard .non-install');
+        if (!is_null($flag)) {
+          $this->getSession()->getPage()->find('css', '#list-action-button a')->click();
+        }
+        $this->iGoToAdminModulesPage();
+        $this->lookingForModule();
+        $this->clickLink("Configure");
+        $this->iSetConfiguration();
+    }
+
+    /**
      * @Given /^click install$/
      */
     public function clickInstall()
@@ -121,6 +154,16 @@ class FeatureContext extends MinkContext
           throw new Exception("Module already uninstalled");
         }
         $this->getSession()->getPage()->find('css', '#list-action-button a')->click();
+    }
+
+    /**
+     * @Given /^I set configuration$/
+     */
+    public function iSetConfiguration()
+    {
+        $this->getSession()->getPage()->find('css', '#twittercardcfg input[name="site"]')->setValue(TWITTERCARD_SITE);
+        $this->getSession()->getPage()->find('css', '#twittercardcfg input[name="creator"]')->setValue(TWITTERCARD_CREATOR);
+//        $this->getSession()->getPage()->find('css', 'input[name="submitFace"]')->click();
     }
 
     private function existsMeta($metaName) {
