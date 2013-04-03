@@ -65,14 +65,16 @@
 
 ##Recommended environment
 ###Testing server
-1. Install and configure a Prestashop site running at http://localhost/prestashop/sandbox
+1. Install and configure a english Prestashop site running at http://localhost/prestashop/sandbox
 
   If you prefer other location, change the *behat.yml* file.
 ```yml
   base_url: http://localhost/prestashop/sandbox
 ```
 
-2. Rename *admin/* prestashop directory to *adm/* and create a employed named *test* which email *test@test.test* and password *testtest*. Set Administrator profile to this user.
+**Prestashop backoffice must be in english for BDD tests**
+
+2. Rename *admin/* Prestashop directory to *adm/* and create a employed named *test* which email *test@test.test* and password *testtest*. Set Administrator profile to this user.
 
   If you prefer other *admin/* name or other test user credentials, change the *features/bootstrap/FeatureContext.php*] file.
 ```php
@@ -93,6 +95,7 @@ Use [Composer](http://getcomposer.org/) to install [Behat](http://behat.org) and
   ./composer.phar install
 ```
 
+**Prestashop backoffice must be in english for BDD tests**
 
 # License
   Released under the MIT license: [http://www.opensource.org/licenses/MIT](http://www.opensource.org/licenses/MIT)
