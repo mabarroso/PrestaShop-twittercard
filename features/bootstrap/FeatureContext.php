@@ -165,16 +165,8 @@ class FeatureContext extends MinkContext
         $this->getSession()->getPage()->find('css', '#twittercardcfg input[name="creator"]')->setValue(TWITTERCARD_CREATOR);
         $this->getSession()->getPage()->find('css', '#twittercardcfg input[name="submitFace"]')->click();
 
-        $value = $this->getSession()->getPage()->find('css', '#twittercardcfg input[name="site"]')->getValue();
-        $expected = TWITTERCARD_SITE;
-        if ($value != $expected) {
-          throw new Exception("twitter:site configuration error.\nExpected:\n\t$expected\nWas:\n\t$value");
-        }
-        $value = $this->getSession()->getPage()->find('css', '#twittercardcfg input[name="creator"]')->getValue();
-        $expected = TWITTERCARD_CREATOR;
-        if ($value != $expected) {
-          throw new Exception("twitter:creator configuration error.\nExpected:\n\t$expected\nWas:\n\t$value");
-        }
+        $this->compareValues('twitter:site configuration',    TWITTERCARD_SITE,    $this->getSession()->getPage()->find('css', '#twittercardcfg input[name="site"]')->getValue());
+        $this->compareValues('twitter:creator configuration', TWITTERCARD_CREATOR, $this->getSession()->getPage()->find('css', '#twittercardcfg input[name="creator"]')->getValue());
     }
 
     private function existsMeta($metaName) {
@@ -194,4 +186,11 @@ class FeatureContext extends MinkContext
       }
       return true;
     }
+
+    private function compareValues($name, $expected, $value) {
+        if ($value != $expected) {
+            throw new Exception("$name error.\nExpected:\n\t'$expected'\nWas:\n\t'$value'");
+        }
+    }
+
 }
