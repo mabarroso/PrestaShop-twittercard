@@ -106,11 +106,11 @@ class FeatureContext extends MinkContext
      */
     public function moduleMustBeUninstalled()
     {
-    		$this->iGoToAdminModulesPage();
-    		$this->lookingForModule();
+        $this->iGoToAdminModulesPage();
+        $this->lookingForModule();
         $flag = $this->getSession()->getPage()->find('css', '#anchorTwittercard .non-install');
         if (is_null($flag)) {
-          $this->getSession()->getPage()->find('css', '#list-action-button a')->click();
+            $this->getSession()->getPage()->find('css', '#list-action-button a')->click();
         }
     }
 
@@ -119,11 +119,11 @@ class FeatureContext extends MinkContext
      */
     public function moduleMustBeInstalled()
     {
-    		$this->iGoToAdminModulesPage();
-    		$this->lookingForModule();
+        $this->iGoToAdminModulesPage();
+        $this->lookingForModule();
         $flag = $this->getSession()->getPage()->find('css', '#anchorTwittercard .non-install');
         if (!is_null($flag)) {
-          $this->getSession()->getPage()->find('css', '#list-action-button a')->click();
+            $this->getSession()->getPage()->find('css', '#list-action-button a')->click();
         }
         $this->iGoToAdminModulesPage();
         $this->lookingForModule();
@@ -138,7 +138,7 @@ class FeatureContext extends MinkContext
     {
         $flag = $this->getSession()->getPage()->find('css', '#anchorTwittercard .non-install');
         if (is_null($flag)) {
-          throw new Exception("Module already installed");
+            throw new Exception("Module already installed");
         }
         $this->getSession()->getPage()->find('css', '#list-action-button a')->click();
 
@@ -151,7 +151,7 @@ class FeatureContext extends MinkContext
     {
         $flag = $this->getSession()->getPage()->find('css', '#anchorTwittercard .non-install');
         if (!is_null($flag)) {
-          throw new Exception("Module already uninstalled");
+            throw new Exception("Module already uninstalled");
         }
         $this->getSession()->getPage()->find('css', '#list-action-button a')->click();
     }
@@ -170,21 +170,21 @@ class FeatureContext extends MinkContext
     }
 
     private function existsMeta($metaName) {
-      if (!$this->getSession()->getPage()->find('css', 'meta[name="'.$metaName.'"]')) {
-        throw new Exception("Meta tag '$metaName' not found in {$this->getSession()->getCurrentUrl()} page");
-        return false;
-      }
-      return true;
+        if (!$this->getSession()->getPage()->find('css', 'meta[name="'.$metaName.'"]')) {
+            throw new Exception("Meta tag '$metaName' not found in {$this->getSession()->getCurrentUrl()} page");
+            return false;
+        }
+        return true;
     }
 
     private function compareMeta($metaName, $value) {
-      if ($this->existsMeta($metaName)) {
-        $metaValue = $this->getSession()->getPage()->find('css', 'meta[name="'.$metaName.'"]')->getAttribute('content');
-        if ($metaValue != $value) {
-          throw new Exception("Meta tag '$metaName' fails in {$this->getSession()->getCurrentUrl()} page. \nExpected:\n\t$value\nWas:\n\t$metaValue");
+        if ($this->existsMeta($metaName)) {
+          $metaValue = $this->getSession()->getPage()->find('css', 'meta[name="'.$metaName.'"]')->getAttribute('content');
+          if ($metaValue != $value) {
+              throw new Exception("Meta tag '$metaName' fails in {$this->getSession()->getCurrentUrl()} page. \nExpected:\n\t$value\nWas:\n\t$metaValue");
+          }
         }
-      }
-      return true;
+        return true;
     }
 
     private function compareValues($name, $expected, $value) {
