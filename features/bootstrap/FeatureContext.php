@@ -49,8 +49,8 @@ class FeatureContext extends MinkContext
     public function metaTagsMustBeCorrectValues()
     {
         $this->compareMeta('twitter:card', 'summary');
-        //$this->compareMeta('twitter:site');
-        //$this->compareMeta('twitter:creator');
+        $this->compareMeta('twitter:site', TWITTERCARD_SITE);
+        $this->compareMeta('twitter:creator', TWITTERCARD_CREATOR);
         $this->compareMeta('twitter:url', $this->getSession()->getCurrentUrl());
         $this->compareMeta('twitter:title', $this->getSession()->getPage()->find('css', '#image-block img')->getAttribute('alt'));
         $this->compareMeta('twitter:description', $this->getSession()->getPage()->find('css', 'meta[name="description"]')->getAttribute('content'));
@@ -163,7 +163,18 @@ class FeatureContext extends MinkContext
     {
         $this->getSession()->getPage()->find('css', '#twittercardcfg input[name="site"]')->setValue(TWITTERCARD_SITE);
         $this->getSession()->getPage()->find('css', '#twittercardcfg input[name="creator"]')->setValue(TWITTERCARD_CREATOR);
-//        $this->getSession()->getPage()->find('css', 'input[name="submitFace"]')->click();
+        $this->getSession()->getPage()->find('css', '#twittercardcfg input[name="submitFace"]')->click();
+
+        $value = $this->getSession()->getPage()->find('css', '#twittercardcfg input[name="site"]')->getValue();
+        $expected = TWITTERCARD_SITE;
+        if ($value != $expected) {
+          throw new Exception("twitter:site configuration error.\nExpected:\n\t$expected\nWas:\n\t$value");
+        }
+        $value = $this->getSession()->getPage()->find('css', '#twittercardcfg input[name="creator"]')->getValue();
+        $expected = TWITTERCARD_CREATOR;
+        if ($value != $expected) {
+          throw new Exception("twitter:creator configuration error.\nExpected:\n\t$expected\nWas:\n\t$value");
+        }
     }
 
     private function existsMeta($metaName) {
