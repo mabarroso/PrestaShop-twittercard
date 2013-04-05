@@ -70,7 +70,7 @@ class Twittercard extends Module
 
 		$this->_html .= '
 		<div id="twittercardcfg">
-		<form action="'.$_SERVER['REQUEST_URI'].'" method="get">';
+		<form action="'.$_SERVER['REQUEST_URI'].'" method="post">';
 
 		$this->_html .='
 		<fieldset>
