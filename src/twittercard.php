@@ -84,7 +84,7 @@ class Twittercard extends Module
 				<input type="text" name="creator" id="creator" value="'.(Configuration::get('TWITTER_CARD_CREATOR')).'" /><br/>
 				<small style="padding-left:164px;padding-top:10px;display:block;font-size:11px;">@username for the content creator / author</small>
 			</div>
-			<center><input type="submit" name="submitFace" value="'.$this->l('Save').'" class="button" /></center>
+			<div style="text-align:center;"><input type="submit" name="submitFace" value="'.$this->l('Save').'" class="button" /></div>
 		</fieldset><br/>
 		</form>
 		</div>';
