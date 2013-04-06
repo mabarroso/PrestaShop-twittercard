@@ -70,7 +70,15 @@ class Twittercard extends Module
 
 		$this->_html .= '
 		<div id="twittercardcfg">
-		<form action="'.$_SERVER['REQUEST_URI'].'" method="post">';
+		<form action="'.$_SERVER['REQUEST_URI'].'" method="get">';
+
+		$pairs = explode('&', $_SERVER['QUERY_STRING']);
+		foreach ($pairs as $param) {
+				list($name,$value) = explode('=', $param, 2);
+				if (($name != 'site') && ($name != 'creator')) {
+						$this->_html .= '<input type="hidden" name="'.$name.'" value="'.$value.'" />';
+				}
+		}
 
 		$this->_html .='
 		<fieldset>
