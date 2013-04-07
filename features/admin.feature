@@ -33,4 +33,4 @@ Feature: Admin
     And looking for module
     And I follow "Configure"
     And I set configuration
-		Then I should see "Settings updated successfully"
+    Then I should see "Settings updated successfully"
