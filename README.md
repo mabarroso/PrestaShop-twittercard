@@ -4,6 +4,8 @@
 #Description
   Add Twitter Cards metas in the products pages and make it possible for you to attach media experiences to Tweets that link to your products.
 
+  Twitter Cards help you richly represent your content within Tweets across the web. This gives users greater context and insight into the URLs shared on Twitter, which in turn allows Twitter to send more engaged traffic to your site.
+
 ##How works
   When a customer make a Tweet linked to a product will show the product image, name and description.
   ![](https://raw.github.com/mabarroso/PrestaShop-twittercard/master/README_twitter.jpg)
