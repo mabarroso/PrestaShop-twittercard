@@ -1,8 +1,8 @@
 #Twitter Cards
-  Twitter cards module for Prestashop.
+  Twitter Cards module for Prestashop.
 
 #Description
-  Add Twitter cards metas in the products pages and make it possible for you to attach media experiences to Tweets that link to your products.
+  Add Twitter Cards metas in the products pages and make it possible for you to attach media experiences to Tweets that link to your products.
 
 ##How works
   When a customer make a Tweet linked to a product will show the product image, name and description.
@@ -23,7 +23,7 @@
 ```
 
 ##Bnefits for the e-merchant
-  Add Twitter cards support to your products page and make it possible for you to attach media experiences to Tweets that link to your products.
+  Add Twitter Cards support to your products page and make it possible for you to attach media experiences to Tweets that link to your products.
 
   The new Tweets linked to your products will be more attractive and, probably, it makes  more clicks to your site.
 
@@ -37,7 +37,7 @@
 ##Installing the module
   After install, you must set your twitter account name in the module configuration page.
 
-  You can test the Twitter cards results at [preview page](https://dev.twitter.com/docs/cards/preview)
+  You can test the Twitter Cards results at [preview page](https://dev.twitter.com/docs/cards/preview)
 
   You must request you participation in Twitter Cards (this take several days by  approval Twitter Team). Fill the [form](https://dev.twitter.com/form/participate-twitter-cards)
 
