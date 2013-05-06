@@ -24,7 +24,7 @@
   <meta name="twitter:image" content="http://demo-store.prestashop.com/27-50-large/visconti-co-evening-dress.jpg" />
 ```
 
-##Bnefits for the e-merchant
+##Benefits for the e-merchant
   Add Twitter Cards support to your products page and make it possible for you to attach media experiences to Tweets that link to your products.
 
   The new Tweets linked to your products will be more attractive and, probably, it makes  more clicks to your site.
