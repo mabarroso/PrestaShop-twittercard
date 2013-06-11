@@ -1,17 +1,41 @@
 <?php
-/*
-*  @author mabarroso <http://github.com/mabarroso/>
-*  @copyright  2013 mabarroso
-*  @license    Released under the MIT license: http://www.opensource.org/licenses/MIT
-*/
+/**
+ * twittercard.php
+ * Twitter Cards module for Prestashop. Generate the products twitter card header metas
+ *
+ * PHP version 5.3
+ *
+ * @category  Module
+ * @package   PrestaShop
+ * @author    mabarroso <lab@mabarroso.com>
+ * @copyright 2013 mabarroso.com
+ * @license   MIT license: http://www.opensource.org/licenses/MIT
+ * @version   GIT: $Id$
+ * @link      http://lab.mabarroso.com/en/twitter-card-prestashop-module
+ * @since     File available since Release 0.1
+ */
 
 if (!defined('_PS_VERSION_'))
     exit;
-
-class Twittercard extends Module
+/**
+ * Twitter Cards module for Prestashop. Generate the products twitter card header metas
+ *
+ * @category  Module
+ * @package   PrestaShop
+ * @author    mabarroso <lab@mabarroso.com>
+ * @copyright 2013 mabarroso.com
+ * @license   MIT license: http://www.opensource.org/licenses/MIT
+ * @version   GIT: $Id$
+ * @link      http://lab.mabarroso.com/en/twitter-card-prestashop-module
+ * @since     Class available since Release 0.1
+ */
+Class Twittercard extends Module
 {
     private $_postErrors = array();
 
+    /**
+     * [__construct description]
+     */
     public function __construct()
     {
         $this->name = 'twittercard';
@@ -28,35 +52,49 @@ class Twittercard extends Module
         $this->description = $this->l('Generate the products twitter card header metas');
     }
 
-    function install()
+    /**
+     * [install description]
+     *
+     * @return Bool Module was installed
+     */
+    public function install()
     {
-        if (
-            !parent::install() OR
-            !$this->registerHook('header') OR
-            !Configuration::updateValue('TWITTER_CARD_SITE', '@mabarroso') OR
-            !Configuration::updateValue('TWITTER_CARD_CREATOR', '@mabarroso')
+        if (!parent::install()
+            OR !$this->registerHook('header')
+            OR !Configuration::updateValue('TWITTER_CARD_SITE', '@mabarroso')
+            OR !Configuration::updateValue('TWITTER_CARD_CREATOR', '@mabarroso')
         )
+
             return false;
         return true;
     }
 
+    /**
+     * [uninstall description]
+     *
+     * @return [type] [description]
+     */
     public function uninstall()
     {
-        if (
-            !parent::uninstall() OR
-            !$this->unregisterHook('header') OR
-            !Configuration::deleteByName('TWITTER_CARD_SITE') OR
-            !Configuration::deleteByName('TWITTER_CARD_CREATOR')
+        if (!parent::uninstall()
+            OR !$this->unregisterHook('header')
+            OR !Configuration::deleteByName('TWITTER_CARD_SITE')
+            OR !Configuration::deleteByName('TWITTER_CARD_CREATOR')
         )
+
             return false;
         return true;
     }
 
+    /**
+     * [getContent description]
+     *
+     * @return [type] [description]
+     */
     public function getContent()
     {
         $this->_html = '';
-        if (Tools::isSubmit('submitFace'))
-        {
+        if (Tools::isSubmit('submitFace')) {
             Configuration::updateValue('TWITTER_CARD_SITE', Tools::getValue('site'));
             Configuration::updateValue('TWITTER_CARD_CREATOR', Tools::getValue('creator'));
             $this->_html .= $this->displayConfirmation($this->l('Settings updated successfully'));
@@ -115,38 +153,49 @@ class Twittercard extends Module
         return $this->_html;
     }
 
-    function hookHeader($params)
+    /**
+     * [hookHeader description]
+     *
+     * @param [type] $params [description]
+     *
+     * @return [type] [description]
+     */
+    public function hookHeader($params)
     {
         global $smarty;
 
-        $id_product = (int)Tools::getValue('id_product');
-        $id_lang = (int)$params['cookie']->id_lang;
+        $id_product = (int) Tools::getValue('id_product');
+        $id_lang = (int) $params['cookie']->id_lang;
 
-        $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
+        $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow(
+            '
             SELECT p.*, pl.`description`, pl.`description_short`, pl.`link_rewrite`, pl.`meta_description`, pl.`meta_keywords`, pl.`meta_title`, pl.`name`, p.`ean13`,  p.`upc`,
                 i.`id_image`, il.`legend`, t.`rate`
             FROM `'._DB_PREFIX_.'product` p
-            LEFT JOIN `'._DB_PREFIX_.'product_lang` pl ON (p.`id_product` = pl.`id_product` AND pl.`id_lang` = '.(int)($id_lang).')
+            LEFT JOIN `'._DB_PREFIX_.'product_lang` pl ON (p.`id_product` = pl.`id_product` AND pl.`id_lang` = '.(int) ($id_lang).')
             LEFT JOIN `'._DB_PREFIX_.'image` i ON (i.`id_product` = p.`id_product` AND i.`cover` = 1)
-            LEFT JOIN `'._DB_PREFIX_.'image_lang` il ON (i.`id_image` = il.`id_image` AND il.`id_lang` = '.(int)($id_lang).')
+            LEFT JOIN `'._DB_PREFIX_.'image_lang` il ON (i.`id_image` = il.`id_image` AND il.`id_lang` = '.(int) ($id_lang).')
             LEFT JOIN `'._DB_PREFIX_.'tax_rule` tr ON (p.`id_tax_rules_group` = tr.`id_tax_rules_group`
-                                                        AND tr.`id_country` = '.(int)Country::getDefaultCountryId().'
+                                                        AND tr.`id_country` = '.(int) Country::getDefaultCountryId().'
                                                         AND tr.`id_state` = 0)
             LEFT JOIN `'._DB_PREFIX_.'tax` t ON (t.`id_tax` = tr.`id_tax`)
-            WHERE p.id_product = '.(int)$id_product);
+            WHERE p.id_product = '.(int) $id_product
+        );
 
         $product = Product::getProductProperties($id_lang, $row);
 
         // Instantiate the class to get the product description
         $description = new Product($id_product, true, $id_lang);
 
-        $smarty->assign(array(
-            'description_short' => strip_tags($description->description_short),
-            'description' => strip_tags($description->description),
-            'product' => $product,
-            'site' => Configuration::get('TWITTER_CARD_SITE'),
-            'creator' => Configuration::get('TWITTER_CARD_CREATOR')
-        ));
+        $smarty->assign(
+            array(
+                'description_short' => strip_tags($description->description_short),
+                'description' => strip_tags($description->description),
+                'product' => $product,
+                'site' => Configuration::get('TWITTER_CARD_SITE'),
+                'creator' => Configuration::get('TWITTER_CARD_CREATOR')
+            )
+        );
 
         return $this->display(__FILE__, 'head.tpl');
     }
